@@ -7,8 +7,8 @@
 
 		/* blurry effects*/
 		display: block;
-		filter: blur(5px);
-		-webkit-filter: blur(5px);
+		filter: blur(20px);
+		-webkit-filter: blur(20px);
 		height: 800px;
 		left: 0;
 		position: fixed;

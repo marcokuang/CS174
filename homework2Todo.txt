@@ -1,0 +1,15 @@
+homework2 
+
+Add web pages and database tables.//done 
+Add CSS page-level styles to your application. //todo LUIS
+Add CSS external styles to your application. //done
+Choose and apply a color palate to your pages. //todo
+Format your HTML elements. Define and apply various CSS styling rules using all of the following selectors:
+           By element name: h1, h2, p //todo LUIS
+           By class name: .quote <p class="quote"> //done
+           By element ID: #quote <p id="quote"> //todo LUIS
+           By Context //todo MARCO
+           Based on state //todo MARCO
+           Based on attributes //todo LUIS
+
+Lay out your HTML pages.

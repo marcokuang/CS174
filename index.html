@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Car Data Checker</title>
+</head>
+<body>
+<form action="queryDB.php" method="get">
+	<fieldset>
+		<legend>User input</legend>
+		<p>
+			<label>Car Manufacturer: </label>
+			<input name="Manufacturer" type="text">
+
+		</p>
+
+		<p>
+			<label>Car Model: </label>
+			<input name="Model" type="text">
+
+		</p>
+		
+		<p>
+			<label>Location: </label>
+			<br><br>
+			<input name="Location" type="radio" value="SanFrancisco" checked> San Francisco
+			<br>
+			<input name="Location" type="radio" value="SanJose"> San Jose
+			
+		<p>
+			<input type="submit" onclick="alert('Form data has been submitted!')" value="Submit">
+		</p>
+	</fieldset>
+</form>
+</body>
+</html>

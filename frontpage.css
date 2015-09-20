@@ -7,8 +7,8 @@
 
 		/* blurry effects*/
 		display: block;
-		filter: blur(20px);
-		-webkit-filter: blur(20px);
+		filter: blur(5px);
+		-webkit-filter: blur(5px);
 		height: 800px;
 		left: 0;
 		position: fixed;
@@ -33,6 +33,22 @@
 		padding: 0 10px;
 	}
 
+	.footer {
+		bottom: 10px;
+		position: fixed;
+		z-index: 2;
+		left: 0px;
+		right: 0px;
+	}
+
+	.footer .footer-content{
+		text-align: center;
+	}
+
+	.footer .footer-content a:hover{
+		color: yellow;
+	}
+
 	.manu{
 		margin: 20px;
 	}
@@ -45,4 +61,21 @@
 
 	.button{
 		margin: 20px;
+	}
+
+/*by context */
+	.manu label{
+		color: red;
+	}
+
+	.manu input{
+		background-color: rgb(242, 142, 125);
+	}
+
+	.car label{
+		color: red;
+	}
+
+	.car input{
+		background-color: rgb(242, 142, 125);
 	}

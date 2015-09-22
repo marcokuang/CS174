@@ -79,3 +79,7 @@
 	.car input{
 		background-color: rgb(242, 142, 125);
 	}
+
+	#footerMessage{
+		font-style: italic;
+	}

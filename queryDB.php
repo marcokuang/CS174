@@ -8,6 +8,14 @@
 	$model = filter_input(INPUT_GET, "Model");
 	$location = filter_input(INPUT_GET, "Location");
 
+	if (strlen(trim($manu)) == 0 ) {
+		$manu = "No input";
+	}
+
+	if (strlen(trim($model)) == 0 ) {
+		$model = "No input";
+	}
+	
 	try{
 		// Connect to the database
 		$con = new PDO("mysql:host=localhost;dbname=Developers", "Developers", "marco1991");

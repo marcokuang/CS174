@@ -49,6 +49,10 @@
 		color: yellow;
 	}
 
+	.footer .footer-content a:visited{
+		color: orange;
+	}
+
 	.manu{
 		margin: 20px;
 	}

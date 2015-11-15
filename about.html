@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>SJSU Scheduler</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        p {
+            font-family: sans-serif;
+            color: #386D95;
+        }
+
+        h1 {
+            color: #FFEB4E;
+            font-family: sans-serif;
+        }
+
+        h2 {
+            color: #FFEB4E;
+            font-family: sans-serif;
+        }
+
+        /*
+        #nav {
+            line-height: 30px;
+            height: 300px;
+            width: 100px;
+            float: left;
+            padding: 5px;
+            padding-top: 40px;
+            margin-right: 40px;
+        }
+        */
+
+        #nav a {
+            color: yellow;
+        }
+    </style>
+
+    <script src="inputValidation.js" ></script>
+    <script type="text/javascript">
+        var drawing;
+        var con;
+        var spaceShuttle;
+        const CANV_HEIGHT = 300;
+        var CANV_WIDTH = 0.9*window.innerWidth;
+        const SPR_WIDTH = 100;
+        const SPR_HEIGHT = 135;
+        var x = 0;
+        var y = 100;
+        var dx = 10;
+        var dy = 7;
+
+        function init() {
+            drawing = document.getElementById("drawing");
+            con = drawing.getContext("2d");
+            drawing.width = CANV_WIDTH;
+            spaceShuttle = document.getElementById("logo");
+            // 100 = 100/1000 of a second = 10 frames per second
+            setInterval(draw, 100);
+        }
+
+        function draw() {
+            //clear background
+            //con.clearRect(0, 0, CANV_HEIGHT, CANV_WIDTH);
+            //move the element
+            x += dx;
+            y += dy;
+            //check for boundaries
+            //wrap();
+            bounce();
+            //draw the image
+            con.drawImage(spaceShuttle, x, y, SPR_WIDTH, SPR_HEIGHT);
+            //draw a rectangle
+            con.strokeStyle = "black";
+            con.lineWidth = 5;
+            con.strokeRect(0, 0, CANV_WIDTH, CANV_HEIGHT);
+        } // end draw
+
+        function wrap()
+        {
+            if (x > CANV_WIDTH)
+            {
+                x = 0;
+            }
+            if (y > CANV_HEIGHT)
+            {
+                y = 0;
+            }
+        }
+
+        function bounce()
+        {
+            if (x > CANV_WIDTH - SPR_WIDTH)
+            {
+                dx *= -1;
+            }
+            if (x < 0)
+            {
+                dx *= -1;
+            }
+            if (y > CANV_HEIGHT - SPR_HEIGHT)
+            {
+                dy *= -1;
+            }
+            if (y < 0)
+            {
+                dy *= -1;
+            }
+
+        } // end bounce
+
+        function resizeCanvas(){
+            canvas = document.getElementById("drawing");
+
+            con = canvas.getContext("2d");
+            spaceShuttle = document.getElementById("logo");
+
+            if (canvas.width  < window.innerWidth)
+            {
+                canvas.width  = window.innerWidth;
+                setInterval(draw, 100);
+            }
+
+            if (canvas.height < window.innerHeight)
+            {
+                canvas.height = window.innerHeight;
+                setInterval(draw, 100);
+            }
+        }
+
+
+    </script>
+</head>
+
+
+
+<body onload="init()">
+<!--<body onresize="init()">-->
+<div class="contents" id="allContents">
+    <header id="header">
+        <div>
+            <h1 align="center">SJSU Scheduler</h1>
+            <img class="hidden" id="logo" src="logoSmall.png"/>
+            <canvas id="drawing" height="300"></canvas>
+        </div>
+    </header>
+    <!-- /header -->
+
+    <nav id="nav" role="navigation">
+        <ul id="menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="sample.html">Sample</a></li>
+        </ul>
+    </nav>
+    <section id="message" align="center">
+
+        <p>
+            The Scheduler takes a student's ID and password to log in the account, then the student can add his or her class ID and the project infomation
+        </p>
+
+        <canvas id = "myCanvas">Cant show canvas</canvas>
+        <script>
+            var canvas = document.getElementById("myCanvas");
+            canvas.width = 300;
+            canvas.height = 300;
+            var ctx=canvas.getContext("2d");
+
+            // drawing the background
+            ctx.beginPath();
+            ctx.rect(0,0,300,300);
+            ctx.fillStyle = "#1A35A0";
+            ctx.fill();
+            ctx.closePath();
+
+            // drawing circle 1
+            ctx.beginPath();
+            ctx.arc(100, 150, 160, 0, 2 * Math.PI);
+            ctx.fillStyle="#EFDD1A";
+            ctx.fill();
+            ctx.closePath();
+
+//            drawing circle 2
+            ctx.beginPath();
+            ctx.arc(250, 215, 155, 0, 2 * Math.PI);
+            ctx.fillStyle="#C5B934";
+            ctx.fill();
+            ctx.closePath();
+
+            //draw sjsu
+            ctx.beginPath();
+            ctx.font="85px Arial";
+            ctx.fillStyle = "#7E7E61";
+            ctx.fillText("SJSU", 0, 130);
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.font="40px Arial";
+            ctx.fillStyle = "blue";
+            ctx.textAlign = "center";
+            ctx.fillText("GroupScheduler", canvas.width/2, canvas.height/2+20);
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.font="bold 20px Verdana";
+            ctx.fillStyle = "black";
+            ctx.textAlign = "left";
+            ctx.fillText("increase your", canvas.width/2-5, canvas.height-60);
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.font="bold 20px Verdana";
+            ctx.fillStyle = "black";
+            ctx.textAlign = "left";
+            ctx.fillText("efficiency", canvas.width/2-5, canvas.height-30);
+            ctx.closePath();
+        </script>
+    </section>
+</div>
+
+<footer class="footer">
+    <div>
+        <p id="footerMessage">The page is made possible by Team Brogrammers</p>
+        <a href="http://github.com/marcokuang/CS174">Project at gitHub</a>
+    </div>
+</footer>
+</body>
+</html>

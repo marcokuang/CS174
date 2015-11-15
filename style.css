@@ -1,0 +1,170 @@
+/*
+background-color: #001D55 ;
+#003399
+
+*/
+
+body{
+    background-color: #202020 ;
+}
+
+/* begin header*/
+#header{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+legend {
+    font-family: "Verdana", Geneva, sans-serif;
+    font-size: 2em;
+}
+
+.contents {
+    top: 10px;
+    left: 0;
+    position: relative;
+    right: 0;
+    z-index: 2;
+    padding: 0 20px;
+    padding-bottom: 50px;
+    color: #FFEB4E;
+    background-color: #061046;
+}
+
+
+/* @group menu
+
+#menu{
+    border-color: #5C1984 #5C1984 #000;
+    list-style-type: none;
+    border-right: 1px solid #000;
+}
+
+
+ */
+
+#menu {
+    margin: 0; padding: 1px 0;
+    list-style-type: none;
+    height: 40px;
+    border-bottom: 1px solid black;
+    }
+#menu li {
+    float: left;
+    margin: 0; padding: 0;
+    width: 33%;
+    }
+#menu a {
+    position: relative;
+    display: block;
+    margin: 1px;
+    height: 28px;
+    font-size: 12px;
+    line-height: 24px;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    background: gray;
+    color: white;
+    }
+#menu a span {
+    display: block;
+    position: absolute; top: 5px; left: 8px;
+    width: 8px; height: 8px;
+    background: white;
+    }
+#menu a.sel {
+    background: silver;
+    color: black;
+    }
+#menu a:hover {
+    background: #333;
+    color: #ccc;
+    }
+/* @end */
+
+#form-section
+{
+    padding-top: 40px;
+}
+
+.studentid, .password, .button{
+    margin: 30px;
+}
+
+.footer {
+    bottom: 10px;
+    position: relative;
+    z-index: 2;
+    left: 0px;
+    right: 0px;
+}
+
+.footer,
+.footer-content {
+    padding-top: 40px;
+    text-align: center;
+}
+
+.footer div a:hover {
+    color: yellow;
+}
+
+.footer div a:visited {
+    color: orange;
+}
+
+.manu {
+    margin: 20px;
+}
+
+.car {
+    margin: 20px;
+}
+
+.loc {
+    margin: 20px;
+}
+
+.button {
+    margin: 20px;
+}
+
+
+/*by context */
+
+.manu label {
+    color: red;
+}
+
+
+/*by attribute*/
+
+input[type="text"] {
+    background-color: rgb(242, 142, 125);
+}
+
+.car label {
+    color: red;
+}
+
+#footerMessage {
+    font-style: italic;
+}
+
+
+/*checkLogin php*/
+#addButton{
+    margin: 20px;
+}
+
+#resultTable{
+    width:100%;
+    color: yellow;
+}
+
+.resultTable{
+    width: 100%;
+
+}

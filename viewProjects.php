@@ -2,6 +2,7 @@
 <?php
 
     include_once("header.php");
+    require("dbconfig.php");
 function printTable($data)
 {
     // We're going to construct an HTML table.
@@ -35,21 +36,10 @@ function printTable($data)
 
 //display the content of the project todo table
 print "<h1>Project Todo Table</h1>";
-
-define("HOSTNAME", "localhost");
-define("DATABASENAME", "GroupScheduler");
-define("DATABASEUSER", "Tester");
-define("PASSWORD", "Tester");
-
 $SJSUID = filter_input(INPUT_POST, "SJSUID");
 $userPassword = filter_input(INPUT_POST, "Password");
 
 try {
-    // Create connection
-    $con = new PDO("mysql:host=".HOSTNAME.";dbname=".DATABASENAME,DATABASEUSER,PASSWORD);
-    // set the PDO error mode to exception
-    $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     $query =
         "SELECT ProjectName, TodoTitle
             FROM ProjectTable, ProjectTodoTable

@@ -148,56 +148,12 @@
             <img class="hidden" id="logo" src="logoSmall.png"/>
             <canvas id="drawing" height="300"></canvas>
         </div>
-    </header>
+    </header><!-- /header -->
+
     <nav id="nav" role="navigation">
         <ul id="menu">
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
-            <li><a href="sample.html">Sample</a></li>
+            <li><a href="about.html">Sample</a></li>
         </ul>
     </nav>
-    <section id="form-section">
-        <form action="homepage.php" onsubmit="return validateForm()" method="post" align="center">
-            <div class="studentid">
-                <label>StudentID:</label>
-                <input id = "inputID" name="SJSUID" type="text"/>
-            </div>
-
-            <div class="password">
-                <label>Password:</label>
-                <input name="Password" type="password" />
-            </div>
-
-            <div class="button">
-                <!--<input type="submit" value="Submit" />-->
-                <input type="submit" name="login" value="Log In"/>
-            </div>
-
-            <div>
-
-                <a href="newAccount.html">Register an account</a>
-                <a href="submitNewProject.html">Submit New Project</a>
-
-
-                <a href="viewProjects.php">View Projects</a>
-            </div>
-        </form>
-    </section>
-    <section class="message">
-        <div class="footer-content" id="messageBar">
-            <h2> "Live long and prosper!"</h2>
-
-            <button id="colorButton" onclick="myFunction()">Change to a new color!</button>
-        </div>
-    </section>
-    <footer class="footer">
-        <div>
-            <p id="footerMessage">The page is made possible by Team Brogrammers</p>
-            <a href="http://github.com/marcokuang/CS174">Project at gitHub</a>
-
-        </div>
-    </footer>
-</div>
-</body>
-
-</html>

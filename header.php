@@ -42,6 +42,7 @@
     </style>
 
     <script src="inputValidation.js" ></script>
+    <script src="db.js"></script>
     <script type="text/javascript">
         var drawing;
         var con;

@@ -26,27 +26,31 @@ function validateNewUserForm() {
     var x = document.getElementById("inputID").value;
     var pwd = document.getElementById("pwd").value;
     var rePwd = document.getElementById("rePwd").value;
+    var firstName = document.getElementById("fName").value;
+    var lastName = document.getElementById("lName").value;
     var idPattern = /^\d{9}$/;
+    var namePattern = /^[a-zA-z]+$/;
+    var output = document.getElementById("output-area");
 
     if(idPattern.test(x)){
-        //alert("hello correct");
-        //return true;
         if (pwd == "" || rePwd == ""){
-            alert("Password is empty");
+            output.innerHTML="Password is empty";
             return false;
         }
         else{
             if(pwd != rePwd){
-                alert("Password does not match");
+
+                output.innerHTML= "Password does not match";
                 return false;
             }
             else{
+                if (namePattern.test(firstName) || namePattern.test(lastName)){
+                    output.innerHTML = "Error: name is not legit";
+                    return false;
+                }
                 return true;
             }
         }
-
-
-
     }
     else{
         alert("please enter the correct student ID");

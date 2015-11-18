@@ -11,7 +11,18 @@ $LastName = filter_input(INPUT_POST, "lastName");
 
 if ($Password !== $RePassword) {
     print("Please check your password");
-} else {
+}
+
+elseif($FirstName == ""){
+    echo "Error: Name is empty";
+}
+
+elseif($LastName == ""){
+    echo "Error: Name is empty";
+}
+
+// if the password and the name attributes look good
+else{
 
     try {
         $query = "SELECT SJSUID FROM UserTable Where SJSUID = :ID";
@@ -23,22 +34,26 @@ if ($Password !== $RePassword) {
     } catch (Exception $e) {
         echo $query . "<br>" . $e->getMessage();
     }
-    $con = null;
-    //echo "$matchFound\n";
+
     if ($matchFound == "yes") {
         echo "Found an existed user, please go back and log in";
-    } else {
+    }
+
+    else {
         echo "<h1>Creating new User</h1>";
         try {
-            // Create connection
-
-            $query = "INSERT INTO userlogintable VALUES (:id, :pwd)";
-
-            $ps = $con->prepare($query);
+            // insert the new id and password to user login table
+            $query = "INSERT INTO UserLoginTable VALUES (:id, :pwd)";
+            $ps = $con->prepare ($query);
             $ps->execute(array(':id' => $StudentID, ':pwd' => $Password));
-            //$data = $ps->fetchAll(PDO::FETCH_ASSOC);
 
-            echo "<h2>New Student account added for: $StudentID</h2>";
+            // insert the new id and name to user table
+            $query = "INSERT INTO UserTable VALUES (:first, :last, :id)";
+            $ps = $con->prepare ($query);
+            $ps->execute(array(':first'=> $FirstName, ':last' => $LastName, ':id' => $StudentID));
+
+            echo "<h2>New Student account added for: SID:$StudentID</h2>";
+            echo "<h2> Name:$FirstName $LastName</h2>";
 
         } catch (PDOException $e) {
             echo $query . "<br>" . $e->getMessage();

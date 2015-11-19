@@ -67,6 +67,12 @@
             }
         }
     </script>
+
+    <style>
+        #last{
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -75,18 +81,20 @@
     </div>
 
 
-    <nav>
-        <div class="btn-group">
-            <a href="homepage.php" class="btn btn-primary" role="button">Home</a>
-            <a href="about.html" class="btn btn-primary" role="button">About</a>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+        <div class="btn-group navbar-header">
+            <a href="homepage.php" class="btn navbar-brand" role="button">Home</a>
+            <a href="about.html" class="btn navbar-brand" role="button">About</a>
             <div class="btn-group">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                <button type="button" class="btn navbar-brand dropdown-toggle" data-toggle="dropdown">
                     Projects <span class="caret"></span></button>
                 <ul class="dropdown-menu" role="menu">
                     <li><a href="homepage.php" role="button">Submit New Project</a></li>
                     <li><a href="newAccount.html" role="button">Register an Account</a></li>
                 </ul>
             </div>
+        </div>
         </div>
     </nav>
 
@@ -107,6 +115,13 @@
     </div>
     <div id="output">
 
+    </div>
+
+    <button id="last" type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Hidden Message</button>
+
+    <div id="demo" class="collapse">
+        <h4>View us at GitHub!</h4>
+        <a href="http://github.com/marcokuang/CS174" role="button" style="padding-bottom: 30px;">Project at gitHub</a>
     </div>
 
 </div>

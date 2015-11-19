@@ -3,22 +3,15 @@
  */
 
 function validateForm() {
-
     var x = document.getElementById("inputID").value;
-
     var idPattern = /^\d{9}$/;
-
     if(idPattern.test(x)){
-
         return true;
-
     }
     else{
         alert("please enter the correct student ID");
         return false;
     }
-
-
 }
 
 function validateNewUserForm() {
@@ -29,7 +22,7 @@ function validateNewUserForm() {
     var firstName = document.getElementById("fName").value;
     var lastName = document.getElementById("lName").value;
     var idPattern = /^\d{9}$/;
-    var namePattern = /^[a-zA-z]+$/;
+    var namePattern = /^[a-zA-Z]+$/;
     var output = document.getElementById("output-area");
 
     if(idPattern.test(x)){
@@ -44,11 +37,13 @@ function validateNewUserForm() {
                 return false;
             }
             else{
-                if (namePattern.test(firstName) || namePattern.test(lastName)){
+                if (namePattern.test(firstName) && namePattern.test(lastName)) {
+                    return true;
+                }
+                else {
                     output.innerHTML = "Error: name is not legit";
                     return false;
                 }
-                return true;
             }
         }
     }

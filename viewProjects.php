@@ -1,8 +1,7 @@
-
 <?php
+include_once("header.php");
+require("dbconfig.php");
 
-    include_once("header.php");
-    require("dbconfig.php");
 function printTable($data)
 {
     // We're going to construct an HTML table.
@@ -34,7 +33,7 @@ function printTable($data)
     print "</div>\n";
 }
 
-//display the content of the project todo table
+//display the content of the project todoTable
 print "<h1>Project Todo Table</h1>";
 $SJSUID = filter_input(INPUT_POST, "SJSUID");
 $userPassword = filter_input(INPUT_POST, "Password");
@@ -48,16 +47,14 @@ try {
     $result = $con->query($query);
     // $data = $result->fetch(PDO::FETCH_ASSOC);
     $data = $con->query($query);
-    $data -> setFetchMode(PDO::FETCH_ASSOC);
+    $data->setFetchMode(PDO::FETCH_ASSOC);
     // $data is an array.
     if (count($data) > 0) {
         printTable($data);
-    }
-    else {
+    } else {
         print "<h2>(Error...)</h3>\n";
     }
-}
-catch(PDOException $e){
-    echo 'ERROR:'.$e->getMessage();
+} catch (PDOException $e) {
+    echo 'ERROR:' . $e->getMessage();
 
 }

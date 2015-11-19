@@ -33,7 +33,7 @@ function printTable($data)
     print "</div>\n";
 }
 
-//display the content of the project todo table
+//display the content of the project todoTable
 
 $SJSUID = filter_input(INPUT_POST, "SJSUID");
 $userPassword = filter_input(INPUT_POST, "Password");
@@ -44,7 +44,7 @@ try {
 
     // prepareStatement
 
-    $query = "SELECT SJSUID FROM UserLoginTable Where UserLoginTable.SJSUID = :id AND UserLoginTable.Password = :pwd";
+    $query = "SELECT SJSUID FROM UserLoginTable WHERE UserLoginTable.SJSUID = :id AND UserLoginTable.Password = :pwd";
 
     $ps = $con->prepare($query);
     $ps->execute(array(':id' => $SJSUID, ':pwd' => $userPassword));
@@ -55,7 +55,7 @@ try {
     if (count($data) > 0) {
         //printTable($data);
 
-        $query2 = "select DISTINCT ProjectTable.ProjectName, ProjectTodoTable.ProjectTodoID, ProjectTodoTable.TodoTitle from UserTable, UserTodoTable, ProjectTable, ProjectTodoTable where UserTable.SJSUID = :id and UserTodoTable.SJSUID = :id and ProjectTodoTable.ProjectID = UserTodoTable.ProjectID and UserTodoTable.ProjectID = ProjectTable.ProjectID";
+        $query2 = "SELECT DISTINCT ProjectTable.ProjectName, ProjectTodoTable.ProjectTodoID, ProjectTodoTable.TodoTitle FROM UserTable, UserTodoTable, ProjectTable, ProjectTodoTable WHERE UserTable.SJSUID = :id AND UserTodoTable.SJSUID = :id AND ProjectTodoTable.ProjectID = UserTodoTable.ProjectID AND UserTodoTable.ProjectID = ProjectTable.ProjectID";
         $ps2 = $con->prepare($query2);
         $ps2->execute(array(':id' => $SJSUID));
 //    $ps->execute(array(':id' => $SJSUID));

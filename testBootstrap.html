@@ -76,14 +76,17 @@
 
 
     <nav>
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Main Menu
-                <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li><a href="#">HTML</a></li>
-                <li><a href="#">CSS</a></li>
-                <li><a href="#">JavaScript</a></li>
-            </ul>
+        <div class="btn-group">
+            <a href="homepage.php" class="btn btn-primary" role="button">Home</a>
+            <a href="about.html" class="btn btn-primary" role="button">About</a>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    Projects <span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="homepage.php" role="button">Submit New Project</a></li>
+                    <li><a href="viewProjects.php" role="button">View All Projects</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
 

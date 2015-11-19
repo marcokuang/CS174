@@ -52,14 +52,9 @@ AND ProjectTable.ProjectID = UserTodoTable.ProjectID
 AND UserTodoTable.SJSUID = :id;";
 
     $ps = $con->prepare($query);
-    echo "hehehehe   ". $SJSUID;
+//    echo "hehehehe   ". $SJSUID;
     $ps->execute(array(':id' => $SJSUID));
     $data = $ps->fetchAll(PDO::FETCH_ASSOC);
-
-//    $result = $con->query($query);
-//    // $data = $result->fetch(PDO::FETCH_ASSOC);
-//    $data = $con->query($query);
-//    $data->setFetchMode(PDO::FETCH_ASSOC);
     // $data is an array.
     if (count($data) > 0) {
         printTable($data);
@@ -68,5 +63,4 @@ AND UserTodoTable.SJSUID = :id;";
     }
 } catch (PDOException $e) {
     echo 'ERROR:' . $e->getMessage();
-
 }

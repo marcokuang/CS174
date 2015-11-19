@@ -5,16 +5,18 @@ require("dbconfig.php");
 function printTable($data)
 {
     // Construct the HTML table row by row.
+//    echo "<ul id='dropDown' class='dropdown-menu'>";
     foreach ($data as $row) {
 
         // Data row.
-        echo "<li id='" . $row["SJSUID"] . "'>" . $row["FirstName"] . " " . $row["LastName"] . "</li>\n";
+        echo "<option value='" . $row["SJSUID"] . "'>" . $row["FirstName"] . " " . $row["LastName"] . "</option>\n";
     }
+//    echo "</ul>";
 
 }
 
 //display the content of the project todoTable
-print "<h1>Project Todo Table</h1>";
+//print "<h1>Project TodoTable</h1>";
 $SJSUID = filter_input(INPUT_POST, "SJSUID");
 $userPassword = filter_input(INPUT_POST, "Password");
 

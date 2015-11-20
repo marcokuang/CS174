@@ -155,7 +155,7 @@
         <ul id="menu">
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
-            <li><a href="about.html">Sample</a></li>
+<!--            <li><a href="about.html">Sample</a></li>-->
             <li><a href="newAccount.html">Register an account</a></li>
             <li><a href="viewProjects.php">View Projects</a></li>
         </ul>

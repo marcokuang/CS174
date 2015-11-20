@@ -4,6 +4,7 @@ require("dbconfig.php");
 
 function printSelectMenu($data)
 {
+    echo "<option value=''> ------</option>";
     foreach ($data as $row) {
         // Data row.
         echo "<option value='" . $row["SJSUID"] . "'>" . $row["FirstName"] . " " . $row["LastName"] . "</option>\n";

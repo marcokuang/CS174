@@ -213,6 +213,7 @@
                             <li><a href="homepage.php" role="button">Submit New Project</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="newAccount.html" role="button">Register an Account</a></li>
+                            <li><a href="viewIndividualToDo.html" role="button">View Individual's ToDos</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -225,14 +226,22 @@
     </div>
 
     <div class="row">
-        <form role="form" action="homepage.php" onsubmit="return validateForm()" method="post" align="center">
+        <div class="col-md-4">
+
+        </div>
+        <form class="col-md-8" role="form" action="homepage.php" onsubmit="return validateForm()" method="post"
+              align="center">
             <div class="row">
-                <div class="studentid col-md-3">
+                <div class="studentid col-md-6">
                     <label for="inputID">StudentID:</label>
                     <input class="form-control" id="inputID" name="SJSUID" type="text"/>
                 </div>
 
-                <div class="password col-md-3">
+            </div>
+
+            <div class="row">
+
+                <div class="password col-md-6">
                     <label for="pwd">Password:</label>
                     <input class="form-control" id="pwd" name="Password" type="password"/>
                 </div>
@@ -241,7 +250,11 @@
 
             <div class="row">
                 <!--<input type="submit" value="Submit" />-->
-                <input class="btn btn-primary" type="submit" name="login" value="Log In"/>
+
+                <div class="col-md-6">
+                    <input class="btn btn-primary btn-block" type="submit" name="login" value="Log In"/>
+                </div>
+
             </div>
 
             <!--<div>-->
@@ -254,7 +267,7 @@
             <!--</div>-->
 
             <div>
-                <a href="viewIndividualToDo.html"> View Individual ToDo's Using AJAX</a>
+                <!--<a href="viewIndividualToDo.html"> View Individual ToDo's Using AJAX</a>-->
             </div>
         </form>
     </div>

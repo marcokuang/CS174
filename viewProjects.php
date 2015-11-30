@@ -5,8 +5,8 @@ require("dbconfig.php");
 function printTable($data)
 {
     // We're going to construct an HTML table.
-    print "<div  class = \"resultTable\">";
-    print "    <table id = \"resultTable\" border='1'>\n";
+    print "<div  class='resultTable'>";
+    print "    <table id='resultTable' class='table table-hover'>\n";
 
     // Construct the HTML table row by row.
     $printHeaderFlag = true;

@@ -198,7 +198,7 @@
                            aria-expanded="false">Projects <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="viewProjects.html">View All Projects</a></li>
-                            <li><a href="homepage.php" role="button">Submit New Project</a></li>
+                            <li><a href="home.php" role="button">Submit New Project</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="newAccount2.html" role="button">Register an Account</a></li>
                             <li><a href="viewIndividualToDo.html" role="button">View Individual's ToDos</a></li>
@@ -210,83 +210,107 @@
     </nav>
 
     <div class="row">
-        <?php
-        require("dbconfig.php");
-        function printTable($data)
-        {
-            // We're going to construct an HTML table.
-            print "<div  class = \"resultTable\">";
-            print "    <table id = \"resultTable\" class='table table-bordered'>\n";
+        <form role="form" action="addToDo.php" id="addTodoItem">
+            <div class="row">
 
-            // Construct the HTML table row by row.
-            $printHeaderFlag = true;
-            foreach ($data as $row) {
-                // print header info
-                if ($printHeaderFlag) {
-                    print "<tr>\n";
-                    foreach ($row as $name => $value) {
-                        print "<th>$name</th>\n";
+                <div class="form-group col-md-6">
+                    <label for="fTitle">Todo Item Title: </label>
+                    <input type="text" class="form-control" id="fTitle" name="title">
+                </div>
+            </div>
+            <div class="row">
+                <?php
+                require("dbconfig.php");
+                function printTable($data)
+                {
+                    echo "<div class='form-group col-md-6'>";
+                    echo "<label for='sel1'>Select a project from list:</label>";
+                    echo "<select class='form-control' id='sel1' name='projectid' form='addTodoItem'>";
+
+
+                    echo "<option value=''> ------</option>";
+                    foreach ($data as $row) {
+                        // Data row.
+                        echo "<option value='" . $row["ProjectID"] . "'>" . $row["ProjectName"] . "</option>\n";
                     }
-                    print "</tr>\n";
-                    $printHeaderFlag = false;
+                    echo "</select>";
+                    echo '</div>';
                 }
 
-                // Data row.
-                print "<tr>\n";
-                foreach ($row as $name => $value) {
-                    print "<td>$value</td>\n";
-                }
-                print "</tr>\n";
-            }
+                //display the content of the project todoTable
 
-            print "</table>\n";
-            print "</div>\n";
-        }
+                $SJSUID = filter_input(INPUT_POST, "SJSUID");
+                $userPassword = filter_input(INPUT_POST, "Password");
 
-        //display the content of the project todoTable
+                try {
 
-        $SJSUID = filter_input(INPUT_POST, "SJSUID");
-        $userPassword = filter_input(INPUT_POST, "Password");
+                    // prepareStatement
 
-        print "<h1>Personal Todo Table</h1>";
+                    $query = "SELECT SJSUID FROM UserLoginTable WHERE UserLoginTable.SJSUID = :id AND UserLoginTable.Password = :pwd";
 
-        try {
+                    $ps = $con->prepare($query);
+                    $ps->execute(array(':id' => $SJSUID, ':pwd' => $userPassword));
+                    $data = $ps->fetchAll(PDO::FETCH_ASSOC);
 
-            // prepareStatement
+                    // $data is an array.
+                    // if the data>0 is ture, it means one matching SJSU ID is found in the database so the next step is to print the array out.
+                    if (count($data) > 0) {
+                        //printTable($data);
 
-            $query = "SELECT SJSUID FROM UserLoginTable WHERE UserLoginTable.SJSUID = :id AND UserLoginTable.Password = :pwd";
-
-            $ps = $con->prepare($query);
-            $ps->execute(array(':id' => $SJSUID, ':pwd' => $userPassword));
-            $data = $ps->fetchAll(PDO::FETCH_ASSOC);
-
-            // $data is an array.
-            // if the data>0 is ture, it means one matching SJSU ID is found in the database so the next step is to print the array out.
-            if (count($data) > 0) {
-                //printTable($data);
-
-                $query2 = "SELECT DISTINCT ProjectTable.ProjectName, ProjectTodoTable.ProjectTodoID, ProjectTodoTable.TodoTitle FROM UserTable, UserTodoTable, ProjectTable, ProjectTodoTable WHERE UserTable.SJSUID = :id AND UserTodoTable.SJSUID = :id AND ProjectTodoTable.ProjectID = UserTodoTable.ProjectID AND UserTodoTable.ProjectID = ProjectTable.ProjectID";
-                $ps2 = $con->prepare($query2);
-                $ps2->execute(array(':id' => $SJSUID));
+                        $query2 = "SELECT DISTINCT ProjectTable.ProjectName, ProjectTodoTable.ProjectID FROM UserTable, UserTodoTable, ProjectTable, ProjectTodoTable WHERE UserTable.SJSUID = :id AND UserTodoTable.SJSUID = :id AND ProjectTodoTable.ProjectID = UserTodoTable.ProjectID AND UserTodoTable.ProjectID = ProjectTable.ProjectID";
+                        $ps2 = $con->prepare($query2);
+                        $ps2->execute(array(':id' => $SJSUID));
 //    $ps->execute(array(':id' => $SJSUID));
-                $data2 = $ps2->fetchAll(PDO::FETCH_ASSOC);
-                if (count($data2) > 0) {
-                    print "<div>\n";
-                    printTable($data2);
-                    print "\n</div>\n";
-                } else {
-                    print "<h2> (Error... No record is found...)</h2>\n";
+                        $data2 = $ps2->fetchAll(PDO::FETCH_ASSOC);
+                        if (count($data2) > 0) {
+                            print "<div>\n";
+                            printTable($data2);
+                            print "\n</div>\n";
+                        } else {
+                            print "<h2> (Error... No record is found...)</h2>\n";
+                        }
+
+                    } else {
+                        print "<h2>(Error...Student ID not found, or password is incorrect)</h3>\n";
+                    }
+
+                } catch (PDOException $e) {
+                    echo 'ERROR:' . $e->getMessage();
+
                 }
+                ?>
+            </div>
+            <div class="row">
+                <button type="submit" formmethod="post" id="submit" class="btn btn-default">Submit</button>
 
-            } else {
-                print "<h2>(Error...Student ID not found, or password is incorrect)</h3>\n";
-            }
+                <script>
+                    $(document).on('click', '#submit', function() {
+                        var x = document.getElementById("fTitle").value;
+                        var y = document.getElementById("sel1").value;
+                        if(x!="" && y!= ""){
+                            alert(x + "\n" + y);
 
-        } catch (PDOException $e) {
-            echo 'ERROR:' . $e->getMessage();
+                            return true;
+                        }
+                        else{
+                            var out = document.getElementById("output");
+//                            out.css("margin-top", "30px");
+//                            out.addClass("alert);
+                            out.className = out.className + " alert alert-warning";
+                            out.style.marginTop = "30px";
+                            out.innerHTML = "Input is not valid, please enter again";
+                            return false;
+                        }
+                    });
 
-        }
-        ?>
+
+                </script>
+            </div>
+        </form>
+
+        <div id="output">
+
+        </div>
     </div>
 
 </div>

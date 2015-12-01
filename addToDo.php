@@ -209,75 +209,98 @@
         </div>
     </nav>
 
-    <div class="alert alert-info">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Info!</strong> New Users Should First Create an Account
-    </div>
-
     <div class="row">
-        <div class="col-md-4">
+        <?php
+        /**
+         * Created by PhpStorm.
+         * User: abcd
+         * Date: 12/1/15
+         * Time: 11:02 AM
+         */
+        require("dbconfig.php");
+        $projectID = filter_input(INPUT_POST, "projectid");
+        $title = filter_input(INPUT_POST, "title");
+
+        //echo $projectID. " and \n". $title;
+
+        try {
+            $query = "INSERT INTO mydb.ProjectTodoTable(`ProjectID`, `TodoTitle`) VALUES (:id, :title);";
+            $ps = $con->prepare($query);
+            $ps->execute(array(':id' => $projectID, ':title' => $title));
+            if($ps){
+                echo "<div class='alert alert-success'> Inserted ToDo item <strong>". $title ." </strong> sucessfully. </div>";
+            }
+            else{
+                echo "failed";
+            }
+
+
+        } catch (Exception $e) {
+            echo $query . "<br>" . $e->getMessage();
+        }
+
+        function printTable($data)
+        {
+            // We're going to construct an HTML table.
+            print "<div  class='resultTable'>";
+            print "    <table id='resultTable' class='table table-hover'>\n";
+
+            // Construct the HTML table row by row.
+            $printHeaderFlag = true;
+            foreach ($data as $row) {
+                // print header info
+                if ($printHeaderFlag) {
+                    print "<tr>\n";
+                    foreach ($row as $name => $value) {
+                        print "<th>$name</th>\n";
+                    }
+                    print "</tr>\n";
+                    $printHeaderFlag = false;
+                }
+
+                // Data row.
+                print "<tr>\n";
+                foreach ($row as $name => $value) {
+                    print "<td>$value</td>\n";
+                }
+                print "</tr>\n";
+            }
+
+            print "</table>\n";
+            print "</div>\n";
+        }
+
+        //display the content of the project todoTable
+        print "<h1>Project Todo Table</h1>";
+        $SJSUID = filter_input(INPUT_POST, "SJSUID");
+        $userPassword = filter_input(INPUT_POST, "Password");
+
+        try {
+            $query =
+                "SELECT ProjectName, TodoTitle
+            FROM ProjectTable, ProjectTodoTable
+            WHERE ProjectTable.ProjectID = " . $projectID. ";";
+
+            $result = $con->query($query);
+            // $data = $result->fetch(PDO::FETCH_ASSOC);
+            $data = $con->query($query);
+            $data->setFetchMode(PDO::FETCH_ASSOC);
+            // $data is an array.
+            if (count($data) > 0) {
+                printTable($data);
+            } else {
+                print "<h2>(Error...)</h3>\n";
+            }
+        } catch (PDOException $e) {
+            echo 'ERROR:' . $e->getMessage();
+
+        }
+
+        ?>
+
+        <div id="output">
 
         </div>
-
-        <?php
-        //include_once("header.php");
-        require("dbconfig.php");
-
-        $StudentID = filter_input(INPUT_POST, "StudentID");
-        $Password = filter_input(INPUT_POST, "Password");
-        $RePassword = filter_input(INPUT_POST, "RePassword");
-        $FirstName = filter_input(INPUT_POST, "firstName");
-        $LastName = filter_input(INPUT_POST, "lastName");
-
-        if ($Password !== $RePassword) {
-            print("Please check your password");
-        } elseif ($FirstName == "") {
-            echo "Error: Name is empty";
-        } elseif ($LastName == "") {
-            echo "Error: Name is empty";
-        } // if the password and the name attributes look good
-        else {
-
-            try {
-                $query = "SELECT SJSUID FROM UserTable WHERE SJSUID = :ID";
-                $ps = $con->prepare($query);
-                $ps->execute(array(':ID' => $StudentID));
-                $data = $ps->fetchAll(PDO::FETCH_ASSOC);
-                $matchFound = count($data) > 0 ? 'yes' : 'no';
-
-            } catch (Exception $e) {
-                echo $query . "<br>" . $e->getMessage();
-            }
-
-            if ($matchFound == "yes") {
-                echo "<h2 class='alert alert-danger'> Found an existed user, please go back and log in </h2>";
-            } else {
-                echo "<h1>Creating new User</h1>";
-                try {
-                    // 1 insert the new id and password to user login table
-                    $query = "INSERT INTO UserLoginTable VALUES (:id, :pwd)";
-                    $ps = $con->prepare($query);
-                    $ps->execute(array(':id' => $StudentID, ':pwd' => $Password));
-
-                    // 2 insert the new id and name to user table
-                    $query = "INSERT INTO UserTable(`SJSUID`, `FirstName`, `LastName`) VALUES (:id, :first, :last)";
-                    $ps = $con->prepare($query);
-                    $ps->execute(array(':id' => $StudentID, ':first' => $FirstName, ':last' => $LastName));
-
-                    echo "<h2>New Student account added for: SID:$StudentID</h2>";
-                    echo "<h2> Name:$FirstName $LastName</h2>";
-
-                } catch (PDOException $e) {
-                    echo $query . "<br>" . $e->getMessage();
-                }
-                $con = null;
-
-            }
-        }
-        ?>
-    </div>
-    <div id="output">
-
     </div>
 
 </div>

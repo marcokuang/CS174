@@ -14,6 +14,20 @@ function validateForm() {
     }
 }
 
+function validateNewItemForm(){
+    var x = document.getElementById("fTitle").value;
+    var y = document.getElementById("sel1").value;
+    if(x!="" && y!= ""){
+        alert("hehe");
+        return true;
+    }
+    else{
+        var out = document.getElementById("output");
+        out.innerHTML = "Input is not valid, please enter again";
+        return false;
+    }
+}
+
 function validateNewUserForm() {
 
     var x = document.getElementById("inputID").value;

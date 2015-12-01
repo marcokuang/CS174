@@ -6,7 +6,7 @@
  * Time: 10:05 PM
  */
 define("HOSTNAME", "localhost");
-define("DATABASENAME", "GroupScheduler");
+define("DATABASENAME", "mydb");
 define("DATABASEUSER", "Tester");
 define("PASSWORD", "Tester");
 

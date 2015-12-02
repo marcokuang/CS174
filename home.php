@@ -56,14 +56,14 @@
                 }
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        document.getElementById("output").innerHTML = xmlhttp.responseText;
+                        document.getElementById("currentTodo").innerHTML = xmlhttp.responseText;
                     }
 
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 404) {
-                        document.getElementById("output").innerHTML = xmlhttp.responseText;
+                        document.getElementById("currentTodo").innerHTML = xmlhttp.responseText;
                     }
                 };
-                xmlhttp.open("GET", "viewIndividualProject.php?q=" + str, true);
+                xmlhttp.open("GET", "viewAndDeleteItem.php?q=" + str, true);
                 xmlhttp.send();
             }
         }
@@ -210,12 +210,29 @@
     </nav>
 
     <div class="row">
-        <form role="form" action="addToDo.php" id="addTodoItem">
+
+        <div class="col-md-6" id="currentTodo">
+            <?php
+            $SJSUID = filter_input(INPUT_POST, "SJSUID");
+//            echo "<script>alert('". $SJSUID. "')</script>";
+            echo "<script> showTable('". $SJSUID. "') </script>";
+            ?>
+        </div>
+        <form class="col-md-6" role="form" action="addToDo.php" id="addTodoItem">
+            <h3>Adding new ToDo items</h3>
             <div class="row">
 
                 <div class="form-group col-md-6">
                     <label for="fTitle">Todo Item Title: </label>
                     <input type="text" class="form-control" id="fTitle" name="title">
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="form-group col-md-6">
+                    <label for="fDate">Enter a due date and time: (YYYY-MM-DD HH:MM:SS)</label>
+                    <input type="text" class="form-control" id="fDate" name="date">
                 </div>
             </div>
             <div class="row">
@@ -287,28 +304,44 @@
                     $(document).on('click', '#submit', function() {
                         var x = document.getElementById("fTitle").value;
                         var y = document.getElementById("sel1").value;
-                        if(x!="" && y!= ""){
-                            alert(x + "\n" + y);
+                        var z = document.getElementById("fDate").value;
+                        var idPattern = /^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/;
 
+//                        alert(idPattern.test(z));
+
+                        if(x!="" && y!= "" && idPattern.test(z)){
                             return true;
                         }
                         else{
                             var out = document.getElementById("output");
-//                            out.css("margin-top", "30px");
-//                            out.addClass("alert);
-                            out.className = out.className + " alert alert-warning";
+                            out.className = out.className + " col-md-3 alert alert-warning";
                             out.style.marginTop = "30px";
                             out.innerHTML = "Input is not valid, please enter again";
                             return false;
                         }
                     });
 
+                    $(document).on('click', '.del', function() {
+
+                        $.post("deleteItem.php",
+                            {
+                                id: this.id
+                            },
+                            function(data,status){
+                                alert("Data: " + data + "\nStatus: " + status);
+                            });
+
+                        var out = document.getElementById("output");
+                        out.className = out.className + " col-md-3 alert alert-warning";
+                        out.style.marginTop = "30px";
+                        out.innerHTML = "Touched and button" + this.id;
+                    });
 
                 </script>
             </div>
         </form>
 
-        <div id="output">
+        <div id="output" class="row">
 
         </div>
     </div>

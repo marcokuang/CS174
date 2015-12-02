@@ -11,7 +11,7 @@ function printTable($data)
 {
     // We're going to construct an HTML table.
     print "<div  class = 'row'>";
-    echo "<div class='col-md-6 table-responsive'>";
+    echo "<div class='col-md-12 table-responsive'>";
     print "    <table id = 'resultTable' class='table table-hover'>\n";
 
     // Construct the HTML table row by row.
@@ -45,7 +45,7 @@ print "<h1>Project Todo Table</h1>";
 $SJSUID = filter_input(INPUT_GET, "q");
 try {
     $query =
-        "SELECT ProjectName, TodoTitle
+        "SELECT ProjectName, TodoTitle, DueDate
 FROM ProjectTable, ProjectTodoTable, UserTodoTable
 WHERE ProjectTable.ProjectID = ProjectTodoTable.ProjectID
 AND ProjectTable.ProjectID = UserTodoTable.ProjectID

@@ -17,8 +17,9 @@ function validateForm() {
 function validateNewItemForm(){
     var x = document.getElementById("fTitle").value;
     var y = document.getElementById("sel1").value;
-    if(x!="" && y!= ""){
-        alert("hehe");
+    var z = document.getElementById("fDate").value;
+    var idPattern = /^(\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2}):(\d{2})$/;
+    if(x!="" && y!= "" && idPattern.test(z)){
         return true;
     }
     else{

@@ -220,18 +220,19 @@
         require("dbconfig.php");
         $projectID = filter_input(INPUT_POST, "projectid");
         $title = filter_input(INPUT_POST, "title");
+        $date = filter_input(INPUT_POST, "date");
 
         //echo $projectID. " and \n". $title;
 
         try {
-            $query = "INSERT INTO mydb.ProjectTodoTable(`ProjectID`, `TodoTitle`) VALUES (:id, :title);";
+            $query = "INSERT INTO mydb.ProjectTodoTable(`ProjectID`, `TodoTitle`, `DueDate`) VALUES (:id, :title, :date);";
             $ps = $con->prepare($query);
-            $ps->execute(array(':id' => $projectID, ':title' => $title));
+            $ps->execute(array(':id' => $projectID, ':title' => $title, ':date' => $date));
             if($ps){
                 echo "<div class='alert alert-success'> Inserted ToDo item <strong>". $title ." </strong> sucessfully. </div>";
             }
             else{
-                echo "failed";
+                echo "<div class='alert alert-danger'>failed adding new item </div>";
             }
 
 

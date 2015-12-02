@@ -24,14 +24,59 @@
     <script src="bootstrap-3.3.5/js/bootstrap.min.js"></script>
     <script src="./inputValidation.js"></script>
 
+    <script>
+        function showUser() {
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("sel1").innerHTML = xmlhttp.responseText;
+                }
+            };
+            xmlhttp.open("POST", "loadSelectMenuOptions.php", true);
+            xmlhttp.send();
+        }
+
+        function showTable(str) {
+            if (str == "") {
+                document.getElementById("output").innerHTML = "";
+                return;
+            } else {
+                if (window.XMLHttpRequest) {
+                    // code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    // code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        document.getElementById("output").innerHTML = xmlhttp.responseText;
+                    }
+
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 404) {
+                        document.getElementById("output").innerHTML = xmlhttp.responseText;
+                    }
+                };
+                xmlhttp.open("GET", "viewIndividualProject.php?q=" + str, true);
+                xmlhttp.send();
+            }
+        }
+    </script>
+
     <style>
         #last {
             margin-bottom: 30px;
         }
 
-        #output-area {
-            margin-top: 2em;
-            padding: 1em;
+        .menu-item {
+            /*padding-right: 10px;*/
+            /*margin-right: 15px;*/
         }
     </style>
 </head>
@@ -101,15 +146,26 @@
                 img.src = oldCanvas;
                 img.onload = function () {
                     canvas.height = canvas.width * (img.height / img.width);
+
+                    /// step 1
                     var oc = document.createElement('canvas'),
-                            octx = oc.getContext('2d');
+                        octx = oc.getContext('2d');
+
                     oc.width = img.width * 0.5;
                     oc.height = img.height * 0.5;
                     octx.drawImage(img, 0, 0, oc.width, oc.height);
+
+                    /// step 2
+//                octx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5);
+//
+//                ctx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5,
+//                        0, 0, canvas.width, canvas.height);
                     octx.drawImage(oc, 0, 0, oc.width, oc.height);
+
                     ctx.drawImage(oc, 0, 0, oc.width, oc.height,
-                            0, 0, canvas.width, canvas.height);
+                        0, 0, canvas.width, canvas.height);
                 }
+
                 canvas.width = 150;
                 canvas.height = 150;
             </script>
@@ -153,61 +209,69 @@
         </div>
     </nav>
 
+    <div class="alert alert-info">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Info!</strong> New Users Should First Create an Account
+    </div>
+
     <div class="row">
         <div class="col-md-4">
 
         </div>
-        <form class="col-md-8" role="form" action="createUserLogin.php" onsubmit="return validateNewUserForm()" method="post"
-              align="center">
-            <div class="row">
-                <div class="studentid col-md-6">
-                    <label for="inputID">StudentID:</label>
-                    <input class="form-control" id="inputID" name="StudentID" type="text"/>
-                </div>
 
-            </div>
+        <?php
+        //include_once("header.php");
+        require("dbconfig.php");
 
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="fName">First Name:</label>
-                    <input class="form-control" id="fName" name="firstName" type="text"/>
-                </div>
-            </div>
+        $StudentID = filter_input(INPUT_POST, "SJSUID");
+        $Password = filter_input(INPUT_POST, "Password");
+        $ProjectName = filter_input(INPUT_POST, "pName");
 
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="lName">Last Name:</label>
-                    <input class="form-control" id="lName" name="lastName" type="text"/>
-                </div>
-            </div>
+        if ($ProjectName == "") {
+            print("Please check your Project Name");
+        }
+        else {
 
-            <div class="row">
-                <div class="password col-md-6">
-                    <label for="pwd">Password:</label>
-                    <input class="form-control" id = "pwd" name="Password" type="password"/>
-                </div>
-            </div>
+            try {
+                $query = "SELECT SJSUID FROM UserLoginTable WHERE SJSUID = :ID AND Password = :pwd ";
+                $ps = $con->prepare($query);
+                $ps->execute(array(':ID' => $StudentID, ':pwd'=> $Password));
+                $data = $ps->fetchAll(PDO::FETCH_ASSOC);
+                $matchFound = count($data) > 0 ? 'yes' : 'no';
 
-            <div class="row">
-                <div class="password col-md-6">
-                    <label for="rePwd">Retype Password:</label>
-                    <input class="form-control" id = "rePwd" name="RePassword" type="password"/>
-                </div>
-            </div>
+            } catch (Exception $e) {
+                echo $query . "<br>" . $e->getMessage();
+            }
 
-            <div class="row">
-                <!--<input type="submit" value="Submit" />-->
-                <div class="col-md-6">
-                    <input class="btn btn-primary btn-block" type="submit" name="login" value="Submit"/>
-                </div>
-            </div>
+            if ($matchFound == "no") {
+                echo "<h2 class='alert alert-danger'> User Not Found or Password does not match </h2>";
+            } else {
+                echo "<h1>Creating new Project</h1>";
+                try {
+                    /*// 1 insert the new id and password to user login table
+                    $query = "INSERT INTO ProjectTable VALUES (:id, :pwd)";
+                    $ps = $con->prepare($query);
+                    $ps->execute(array(':id' => $StudentID, ':pwd' => $Password));
 
-            <div class="row">
-                <div class="col-md-6 text-uppercase" id="output-area">
+                    // 2 insert the new id and name to user table
+                    $query = "INSERT INTO UserTable(`SJSUID`, `FirstName`, `LastName`) VALUES (:id, :first, :last)";
+                    $ps = $con->prepare($query);
+                    $ps->execute(array(':id' => $StudentID, ':first' => $FirstName, ':last' => $LastName));
 
-                </div>
-            </div>
-        </form>
+                    echo "<h2>New Student account added for: SID:$StudentID</h2>";
+                    echo "<h2> Name:$FirstName $LastName</h2>";*/
+
+                } catch (PDOException $e) {
+                    echo $query . "<br>" . $e->getMessage();
+                }
+                $con = null;
+
+            }
+        }
+        ?>
+    </div>
+    <div id="output">
+
     </div>
 
 </div>

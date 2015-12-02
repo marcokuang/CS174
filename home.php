@@ -25,6 +25,7 @@
     <script src="./inputValidation.js"></script>
 
     <script>
+        var global_ID;
         function showUser() {
             if (window.XMLHttpRequest) {
                 // code for IE7+, Firefox, Chrome, Opera, Safari
@@ -198,7 +199,7 @@
                            aria-expanded="false">Projects <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="viewProjects.html">View All Projects</a></li>
-                            <li><a href="home.php" role="button">Submit New Project</a></li>
+                            <li><a href="addProject.html" role="button">Submit New Project</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="newAccount2.html" role="button">Register an Account</a></li>
                             <li><a href="viewIndividualToDo.html" role="button">View Individual's ToDos</a></li>
@@ -215,7 +216,7 @@
             <?php
             $SJSUID = filter_input(INPUT_POST, "SJSUID");
 //            echo "<script>alert('". $SJSUID. "')</script>";
-            echo "<script> showTable('". $SJSUID. "') </script>";
+            echo "<script> showTable('". $SJSUID. "'); global_ID = '". $SJSUID. "';</script>";
             ?>
         </div>
         <form class="col-md-6" role="form" action="addToDo.php" id="addTodoItem">
@@ -298,7 +299,8 @@
                 ?>
             </div>
             <div class="row">
-                <button type="submit" formmethod="post" id="submit" class="btn btn-default">Submit</button>
+                <button type="submit" formmethod="post" id="submit" class="btn btn-default col-md-3">Submit</button>
+                <a href="addProject.html" class="btn btn-info col-md-3" role="button">Add Project</a>
 
                 <script>
                     $(document).on('click', '#submit', function() {
@@ -328,13 +330,14 @@
                                 id: this.id
                             },
                             function(data,status){
-                                alert("Data: " + data + "\nStatus: " + status);
+//                                alert(global_ID);
+                                showTable(global_ID);
                             });
 
                         var out = document.getElementById("output");
                         out.className = out.className + " col-md-3 alert alert-warning";
                         out.style.marginTop = "30px";
-                        out.innerHTML = "Touched and button" + this.id;
+                        out.innerHTML = "Deleted Todo Item ID: " + this.id;
                     });
 
                 </script>

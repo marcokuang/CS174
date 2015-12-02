@@ -69,16 +69,16 @@
         }
     </script>
 
-    <style>
-        #last {
-            margin-bottom: 30px;
-        }
-
-        .menu-item {
-            /*padding-right: 10px;*/
-            /*margin-right: 15px;*/
-        }
-    </style>
+<!--    <style>-->
+<!--        #last {-->
+<!--            margin-bottom: 30px;-->
+<!--        }-->
+<!---->
+<!--        .menu-item {-->
+<!--            /*padding-right: 10px;*/-->
+<!--            /*margin-right: 15px;*/-->
+<!--        }-->
+<!--    </style>-->
 </head>
 <body>
 <div class="container">
@@ -225,7 +225,7 @@
 
         $StudentID = filter_input(INPUT_POST, "SJSUID");
         $Password = filter_input(INPUT_POST, "Password");
-        $ProjectName = filter_input(INPUT_POST, "pName");
+        $ProjectName = filter_input(INPUT_POST, "PName");
 
         if ($ProjectName == "") {
             print("Please check your Project Name");
@@ -233,7 +233,7 @@
         else {
 
             try {
-                $query = "SELECT SJSUID FROM UserLoginTable WHERE SJSUID = :ID AND Password = :pwd ";
+                $query = "SELECT SJSUID FROM `UserLoginTable` WHERE `SJSUID` = :ID AND `Password` = :pwd ; ";
                 $ps = $con->prepare($query);
                 $ps->execute(array(':ID' => $StudentID, ':pwd'=> $Password));
                 $data = $ps->fetchAll(PDO::FETCH_ASSOC);
@@ -248,21 +248,38 @@
             } else {
                 echo "<h1>Creating new Project</h1>";
                 try {
-                    /*// 1 insert the new id and password to user login table
-                    $query = "INSERT INTO ProjectTable VALUES (:id, :pwd)";
-                    $ps = $con->prepare($query);
-                    $ps->execute(array(':id' => $StudentID, ':pwd' => $Password));
+                    $sql = "SELECT MAX(id) FROM `ProjectTable`";
+                    $ps = $con->prepare($sql);
+                    $ps->execute();
+                    $data = $ps->fetch(PDO::FETCH_BOTH);
+                    $ID = next($data)+1;
+                    echo "<h2>".$ID."</h2>";
 
-                    // 2 insert the new id and name to user table
-                    $query = "INSERT INTO UserTable(`SJSUID`, `FirstName`, `LastName`) VALUES (:id, :first, :last)";
-                    $ps = $con->prepare($query);
-                    $ps->execute(array(':id' => $StudentID, ':first' => $FirstName, ':last' => $LastName));
+                    $sql = "SELECT MAX(ProjectID) FROM `ProjectTable`";
+                    $ps = $con->prepare($sql);
+                    $ps->execute();
+                    $data = $ps->fetch(PDO::FETCH_BOTH);
+                    $projectID = next($data)+1;
+                    echo "<h2>".$projectID."</h2>";
 
-                    echo "<h2>New Student account added for: SID:$StudentID</h2>";
-                    echo "<h2> Name:$FirstName $LastName</h2>";*/
+                    try{
+                        $sql = "INSERT INTO `ProjectTable`(`ProjectID`, `ProjectName`, `id`) VALUES (:pid, :pName, :id );";
+                        $ps = $con->prepare($sql);
+                        $ps->bindParam(':pid', $projectID);
+                        $ps->bindParam(':pName', $ProjectName);
+                        $ps->bindParam(':id', $ID);
+                        $ps->execute();
 
+                        $sql = "INSERT INTO `UserTodoTable`(`SJSUID`, `ProjectID`) VALUES (:sid, :pid);";
+                        $ps = $con->prepare($sql);
+                        $ps->execute(array(':sid' => $StudentID, ':pid' => $projectID));
+                    }
+                    catch (PDOException $e) {
+                        echo $sql . "<br>" . $e->getMessage();
+                    }
+                    echo "Success!";
                 } catch (PDOException $e) {
-                    echo $query . "<br>" . $e->getMessage();
+                    echo $sql . "<br>" . $e->getMessage();
                 }
                 $con = null;
 

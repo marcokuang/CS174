@@ -278,9 +278,9 @@
 
         try {
             $query =
-                "SELECT ProjectName, TodoTitle
+                "SELECT DISTINCT ProjectName, TodoTitle
             FROM ProjectTable, ProjectTodoTable
-            WHERE ProjectTable.ProjectID = " . $projectID. ";";
+            WHERE ProjectTable.ProjectID = ProjectTodoTable.ProjectID AND ProjectTable.ProjectID = " . $projectID. ";";
 
             $result = $con->query($query);
             // $data = $result->fetch(PDO::FETCH_ASSOC);

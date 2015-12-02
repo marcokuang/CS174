@@ -275,7 +275,10 @@
                     if (count($data) > 0) {
                         //printTable($data);
 
-                        $query2 = "SELECT DISTINCT ProjectTable.ProjectName, ProjectTodoTable.ProjectID FROM UserTable, UserTodoTable, ProjectTable, ProjectTodoTable WHERE UserTable.SJSUID = :id AND UserTodoTable.SJSUID = :id AND ProjectTodoTable.ProjectID = UserTodoTable.ProjectID AND UserTodoTable.ProjectID = ProjectTable.ProjectID";
+//                        $query2 = "SELECT DISTINCT ProjectTable.ProjectName, ProjectTodoTable.ProjectID FROM UserTable, UserTodoTable, ProjectTable, ProjectTodoTable WHERE UserTable.SJSUID = :id AND UserTodoTable.SJSUID = :id AND ProjectTodoTable.ProjectID = UserTodoTable.ProjectID AND UserTodoTable.ProjectID =
+
+                        $query2 = "SELECT DISTINCT ProjectTable.ProjectName, ProjectTable.ProjectID FROM ProjectTable, UserTodoTable WHERE UserTodoTable.SJSUID = :id AND UserTodoTable.ProjectID = ProjectTable.ProjectID";
+
                         $ps2 = $con->prepare($query2);
                         $ps2->execute(array(':id' => $SJSUID));
 //    $ps->execute(array(':id' => $SJSUID));

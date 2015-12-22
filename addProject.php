@@ -253,14 +253,14 @@
                     $ps->execute();
                     $data = $ps->fetch(PDO::FETCH_BOTH);
                     $ID = next($data)+1;
-                    echo "<h2>".$ID."</h2>";
+//                    echo "<h2>".$ID."</h2>";
 
                     $sql = "SELECT MAX(ProjectID) FROM `ProjectTable`";
                     $ps = $con->prepare($sql);
                     $ps->execute();
                     $data = $ps->fetch(PDO::FETCH_BOTH);
                     $projectID = next($data)+1;
-                    echo "<h2>".$projectID."</h2>";
+//                    echo "<h2>".$projectID."</h2>";
 
                     try{
                         $sql = "INSERT INTO `ProjectTable`(`ProjectID`, `ProjectName`, `id`) VALUES (:pid, :pName, :id );";
@@ -277,7 +277,7 @@
                     catch (PDOException $e) {
                         echo $sql . "<br>" . $e->getMessage();
                     }
-                    echo "Success!";
+                    echo "<h3 class='alert alert-success'>Success!</h3>";
                 } catch (PDOException $e) {
                     echo $sql . "<br>" . $e->getMessage();
                 }

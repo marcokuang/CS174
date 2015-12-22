@@ -319,7 +319,7 @@
                         }
                         else{
                             var out = document.getElementById("output");
-                            out.className = out.className + " col-md-3 alert alert-warning";
+                            out.className = out.className + " col-md-8 alert alert-warning";
                             out.style.marginTop = "30px";
                             out.innerHTML = "Input is not valid, please enter again";
                             return false;
@@ -338,18 +338,19 @@
                             });
 
                         var out = document.getElementById("output");
-                        out.className = out.className + " col-md-3 alert alert-warning";
+                        out.className = out.className + " col-md-8 alert alert-warning";
                         out.style.marginTop = "30px";
                         out.innerHTML = "Deleted Todo Item ID: " + this.id;
                     });
 
                 </script>
             </div>
+            <div id="output" class="row">
+
+            </div>
         </form>
 
-        <div id="output" class="row">
 
-        </div>
     </div>
 
 </div>

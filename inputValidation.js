@@ -4,9 +4,17 @@
 
 function validateForm() {
     var x = document.getElementById("inputID").value;
+    var y = document.getElementById("pwd").value;
     var idPattern = /^\d{9}$/;
     if(idPattern.test(x)){
-        return true;
+        if(y != ""){
+            return true;
+        }
+        else{
+            alert("Password is Empty");
+            return false;
+        }
+        return false;
     }
     else{
         alert("please enter the correct student ID");
